@@ -1,17 +1,17 @@
 <html>
-  <head>
-  	<meta charset="utf-8">
-  	<title>一起變有錢</title>
-  	<style>
-      #bg
-      {
-        background-image:url("bg850*478.jpg");
-        background-size:100%;
-        position:relative;
-        width:850px;
-        height:478px;
+	<head>
+		<meta charset="utf-8">
+		<title>一起變有錢</title>
+		<style>
+			#bg
+			{
+				background-image:url("bg850*478.jpg");
+				background-size:100%;
+				position:relative;
+				width:850px;
+				height:478px;
 				z-index:1;
-      }
+			}
 			#rule
 			{
 				position:absolute;
@@ -122,16 +122,16 @@
 				box-shadow:0px 0px 10px 10px white;
 				color:white;
 			}*/
-      #bowl
-      {
-        background:url("bowlwithnoback303*178.png");
-        background-size:100%;
-        height:44.5px;
-        width:75.75px;
-        position:absolute;
-        left:387px;
-        top:370px;
-      }
+			#bowl
+			{
+				background:url("bowlwithnoback303*178.png");
+				background-size:100%;
+				height:44.5px;
+				width:75.75px;
+				position:absolute;
+				left:387px;
+				top:370px;
+			}
 			.coin
 			{
 				background:url("coin1200*1200.png");
@@ -179,13 +179,13 @@
 				left:425px;*/
 				z-index:6;
 			}
-  	</style>
-  	<script>
+		</style>
+		<script>
 			//python和javascript都一行一行吃，所以錯誤可能在提示的更前面
-      function get(id)
-      {
-        return document.getElementById(id);
-      }
+			function get(id)
+			{
+				return document.getElementById(id);
+			}
 			function gets(className)
 			{
 				return Array.from(document.getElementsByClassName(className));
@@ -194,23 +194,23 @@
 			{
 				return Math.floor(Math.random()*(max-min+1))+min;
 			}
-      function gameset()
-      {
+			function gameset()
+			{
 				gameover=0;
 				score=0;
 				gametime=60;
 				get("score").innerHTML=score;
 				get("gametime").innerHTML=gametime;
-        kb={"ArrowLeft":0,"ArrowRight":0};
-        bowl=get("bowl");
-        bowl.pos={x:387,y:370};
+				kb={"ArrowLeft":0,"ArrowRight":0};
+				bowl=get("bowl");
+				bowl.pos={x:387,y:370};
 				sbutton=document.createElement("div");
 				sbutton.id="startbutton";
 				sbutton.innerHTML="開始";
 				get("bg").appendChild(sbutton);
 				sbutton.addEventListener("click",disappear);
 				//c.forEach(function(y){y.remove;});
-      }
+			}
 			function disappear(ev)
 			{
 				ev.target.remove();
@@ -239,36 +239,36 @@
 					get("gametime").innerHTML=gametime;
 				}
 			}
-      function kd(ev)
-      {
-        ev.preventDefault();
-        //console.log(ev.key);
-        if(Object.keys(kb).includes(ev.key))
-        {
-          kb[ev.key]=1;
-        }
-      }
-      function ku(ev)
-      {
-        if(Object.keys(kb).includes(ev.key))
-        {
-          kb[ev.key]=0;
-        }
-      }
-      function move()
-      {
-        if(kb["ArrowLeft"] && bowl.pos.x>8)
-        {
-          bowl.pos.x--;
-        }
-        else if(kb["ArrowRight"] && bowl.pos.x<782)
-        {
-          bowl.pos.x++;
-        }
-        bowl.style.left=bowl.pos.x+"px";
-        //console.log(bowl.pos.x);
-      }
-  		function makecoin()
+			function kd(ev)
+			{
+				ev.preventDefault();
+				//console.log(ev.key);
+				if(Object.keys(kb).includes(ev.key))
+				{
+					kb[ev.key]=1;
+				}
+			}
+			function ku(ev)
+			{
+				if(Object.keys(kb).includes(ev.key))
+				{
+					kb[ev.key]=0;
+				}
+			}
+			function move()
+			{
+				if(kb["ArrowLeft"] && bowl.pos.x>8)
+				{
+					bowl.pos.x--;
+				}
+				else if(kb["ArrowRight"] && bowl.pos.x<782)
+				{
+					bowl.pos.x++;
+				}
+				bowl.style.left=bowl.pos.x+"px";
+				//console.log(bowl.pos.x);
+			}
+			function makecoin()
 			{
 				if(gameover) return;
 				c=document.createElement("div");
@@ -450,7 +450,6 @@
 				//gopic.style.zIndex=6;
 				//putrestart();
 				//setTimeout(putrestart,315);
-
 			}*/
 			/*function putrestart()
 			{
@@ -459,7 +458,6 @@
 				re.innerHTML="重新開始";
 				get("bg").appendChild(re);
 				re.addEventListener("click",res);
-				
 			}*/
 			/*function res(ev)
 			{
@@ -468,26 +466,26 @@
 				gameset();
 			}*/
 			
-  	</script>
-  </head>
-  <body onload="gameset();" onkeydown="kd(event);" onkeyup="ku(event);">
-    <div id="bg">
-			<div id="block"></div>
-      <div id="bowl"></div>
-			<div id="rule">
-				遊戲規則:<br>
-				1. 點擊左右鍵控制大碗移動<br>
-				2. 接到金幣 : 得1$<br>
-				3. 接到鑽石 : 得5$<br>
-				4. 接到時鐘 : 加5秒<br>
-				5. 接到閃電 : 金幣出現速度增加(持續3秒)<br>
-				6. 時間結束時遊戲結束<br>
-				7. 若要重新開始遊戲，請刷新頁面<br>
-				8. 開心玩^^
-			</div>
-			<div id="p">資產 : <span id="score">0</span> $</div>
-			<div id="p2">剩餘 <span id="gametime">60</span> 秒</div>
-			<!--<button onclick="res2()" id="p3">重新開始</button><br>-->
-    </div>
-  </body>
+		</script>
+	</head>
+	<body onload="gameset();" onkeydown="kd(event);" onkeyup="ku(event);">
+		<div id="bg">
+		<div id="block"></div>
+		<div id="bowl"></div>
+		<div id="rule">
+			遊戲規則:<br>
+			1. 點擊左右鍵控制大碗移動<br>
+			2. 接到金幣 : 得1$<br>
+			3. 接到鑽石 : 得5$<br>
+			4. 接到時鐘 : 加5秒<br>
+			5. 接到閃電 : 金幣出現速度增加(持續3秒)<br>
+			6. 時間結束時遊戲結束<br>
+			7. 若要重新開始遊戲，請刷新頁面<br>
+			8. 開心玩^^
+		</div>
+		<div id="p">資產 : <span id="score">0</span> $</div>
+		<div id="p2">剩餘 <span id="gametime">60</span> 秒</div>
+		<!--<button onclick="res2()" id="p3">重新開始</button><br>-->
+		</div>
+	</body>
 </html>
