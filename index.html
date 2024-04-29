@@ -1,0 +1,493 @@
+<html>
+  <head>
+  	<meta charset="utf-8">
+  	<title>一起變有錢</title>
+  	<style>
+      #bg
+      {
+        background-image:url("bg850*478.jpg");
+        background-size:100%;
+        position:relative;
+        width:850px;
+        height:478px;
+				z-index:1;
+      }
+			#rule
+			{
+				position:absolute;
+				width:400px;
+				height:200px;
+				top:0px;
+				left:860px;
+				font-size:20px;
+			}
+			#p
+			{
+				position:absolute;
+				width:400px;
+				height:200px;
+				top:300px;
+				left:860px;
+				font-size:20px;
+			}
+			#p2
+			{
+				position:absolute;
+				width:400px;
+				height:200px;
+				top:325px;
+				left:860px;
+				font-size:20px;
+			}
+			#p3
+			{
+				position:absolute;
+				width:150px;
+				height:50px;
+				top:370px;
+				left:860px;
+				font-size:20px;
+			}
+			/*.rulepic
+			{
+				background-size:100%;
+				width:10px;
+				height:10px;
+			}
+			#r_coin
+			{
+				background-image:url("coin1200*1200.png");
+			}
+			#r_diamond
+			{
+				background-image:url("diamond214*214.png");
+			}
+			#r_plustime
+			{
+				background-image:url("clock2048*2048.png");
+			}
+			#r_lightning
+			{
+				background-image:url("lightning512*512.png");
+			}*/
+			#block
+			{
+				position:absolute;
+				top:478px;
+				left:8px;
+				background-color:white;
+				width:850px;
+				height:42px;
+				z-index:4;
+			}
+			#startbutton
+			{
+				position:absolute;
+				top:195px;
+				left:330px;
+				width:200px;
+				height:100px;
+				background-color:lightblue;
+				border-radius:50px;
+				font-size:50px;
+				color:black;
+				text-align:center;
+				line-height:100px;
+				/*cursor:pointer;*/
+				z-index:5;
+			}
+			#startbutton:hover
+			{
+				box-shadow:0px 0px 10px 10px white;
+				color:white;
+			}
+			/*#restart
+			{
+				position:absolute;
+				top:260px;
+				left:330px;
+				width:200px;
+				height:100px;
+				background-color:lightblue;
+				border-radius:50px;
+				font-size:35px;
+				color:black;
+				text-align:center;
+				line-height:100px;
+				cursor:pointer;
+				z-index:7;
+			}
+			#restart:hover
+			{
+				box-shadow:0px 0px 10px 10px white;
+				color:white;
+			}*/
+      #bowl
+      {
+        background:url("bowlwithnoback303*178.png");
+        background-size:100%;
+        height:44.5px;
+        width:75.75px;
+        position:absolute;
+        left:387px;
+        top:370px;
+      }
+			.coin
+			{
+				background:url("coin1200*1200.png");
+				background-size:100%;
+				height:35px;
+				width:35px;
+				position:absolute;
+				z-index:3;
+			}
+			.diamond
+			{
+				background:url("diamond214*214.png");
+				background-size:100%;
+				height:35px;
+				width:35px;
+				position:absolute;
+				z-index:3;
+			}
+			.plustime
+			{
+				background:url("clock2048*2048.png");
+				background-size:100%;
+				height:35px;
+				width:35px;
+				position:absolute;
+				z-index:3;
+			}
+			.lightning
+			{
+				background:url("lightning512*512.png");
+				background-size:100%;
+				height:35px;
+				width:35px;
+				position:absolute;
+				z-index:3;
+			}
+			.go_pic
+			{
+				background:url("game_over240*240.png");
+				background-size:100%;
+				position:absolute;
+				height:200px;
+				width:200px;
+				/*top:200px;
+				left:425px;*/
+				z-index:6;
+			}
+  	</style>
+  	<script>
+			//python和javascript都一行一行吃，所以錯誤可能在提示的更前面
+      function get(id)
+      {
+        return document.getElementById(id);
+      }
+			function gets(className)
+			{
+				return Array.from(document.getElementsByClassName(className));
+			}
+			function getRnd(min,max)
+			{
+				return Math.floor(Math.random()*(max-min+1))+min;
+			}
+      function gameset()
+      {
+				gameover=0;
+				score=0;
+				gametime=60;
+				get("score").innerHTML=score;
+				get("gametime").innerHTML=gametime;
+        kb={"ArrowLeft":0,"ArrowRight":0};
+        bowl=get("bowl");
+        bowl.pos={x:387,y:370};
+				sbutton=document.createElement("div");
+				sbutton.id="startbutton";
+				sbutton.innerHTML="開始";
+				get("bg").appendChild(sbutton);
+				sbutton.addEventListener("click",disappear);
+				//c.forEach(function(y){y.remove;});
+      }
+			function disappear(ev)
+			{
+				ev.target.remove();
+				gamestart();
+			}
+			function gamestart()
+			{
+				cd=setInterval(countdown,1000);
+				mo=setInterval(move,2.5);
+				mc=setInterval(makecoin,1500);
+				md=setInterval(makediamond,13000);
+				mt=setInterval(maketime,10000);
+				ml=setInterval(makelightning,7500);
+				//gopic.style.zIndex=1;	
+			}
+			function countdown()
+			{
+				if(gametime==0)
+				{
+					clearInterval(countdown);
+					allover();
+				}
+				else
+				{
+					gametime--;
+					get("gametime").innerHTML=gametime;
+				}
+			}
+      function kd(ev)
+      {
+        ev.preventDefault();
+        //console.log(ev.key);
+        if(Object.keys(kb).includes(ev.key))
+        {
+          kb[ev.key]=1;
+        }
+      }
+      function ku(ev)
+      {
+        if(Object.keys(kb).includes(ev.key))
+        {
+          kb[ev.key]=0;
+        }
+      }
+      function move()
+      {
+        if(kb["ArrowLeft"] && bowl.pos.x>8)
+        {
+          bowl.pos.x--;
+        }
+        else if(kb["ArrowRight"] && bowl.pos.x<782)
+        {
+          bowl.pos.x++;
+        }
+        bowl.style.left=bowl.pos.x+"px";
+        //console.log(bowl.pos.x);
+      }
+  		function makecoin()
+			{
+				if(gameover) return;
+				c=document.createElement("div");
+				c.className="coin";
+				c.pos={x:getRnd(10,805),y:7};
+				c.style.left=c.pos.x+"px";
+				c.style.top=c.pos.y+"px";
+				c.time=setInterval(coindrop,20,c);
+				get("bg").appendChild(c);
+			}
+			function coindrop(c)
+			{
+				if(gameover) return;
+				if(c.pos.y>=483)
+				{
+					var allcoins=gets("coin");
+					var disp=allcoins.filter(function(c){return c.pos.y>=483});
+					disp.forEach(function(x){x.remove();});
+					//gets和filter出來都是一個array，所以要用forEach一個一個抓出來remove;
+				}
+				else if(c.pos.x>=bowl.pos.x && c.pos.x<=bowl.pos.x+75.75 && c.pos.y+35==bowl.pos.y+15)
+				{
+					c.remove();
+					clearInterval(c.time);
+					score++;
+					get("score").innerHTML=score;
+				}
+				else
+				{
+					c.pos.y++;
+					c.style.top=c.pos.y+"px";
+				}
+			}
+			function makediamond()
+			{
+				if(gameover) return;
+				d=document.createElement("div");
+				d.className="diamond";
+				d.pos={x:getRnd(10,805),y:7};
+				d.style.left=d.pos.x+"px";
+				d.style.top=d.pos.y+"px";
+				d.time=setInterval(diamonddrop,20,d);
+				get("bg").appendChild(d);
+			}
+			function diamonddrop(d)
+			{
+				if(gameover) return;
+				if(d.pos.y>=483)
+				{
+					var alldiams=gets("diamond");
+					var disp=alldiams.filter(function(d){return d.pos.y>=483});
+					disp.forEach(function(x){x.remove();});
+				}
+				else if(d.pos.x>=bowl.pos.x && d.pos.x<=bowl.pos.x+75.75 && d.pos.y+35==bowl.pos.y+15)
+				{
+					d.remove();
+					clearInterval(d.time);
+					score=score+5;
+					get("score").innerHTML=score;
+				}
+				else
+				{
+					d.pos.y++;
+					d.style.top=d.pos.y+"px";
+				}
+			}
+			function maketime()
+			{
+				if(gameover) return;
+				t=document.createElement("div");
+				t.className="plustime";
+				t.pos={x:getRnd(10,805),y:7};
+				//console.log(t.pos.x);
+				t.style.left=t.pos.x+"px";
+				//console.log(t.style.left);
+				t.style.top=t.pos.y+"px";
+				t.time=setInterval(timedrop,20,t);
+				get("bg").appendChild(t);
+			}
+			function timedrop(t)
+			{
+				if(gameover) return;
+				if(t.pos.y>=483)
+				{
+					var alltimes=gets("plustime");
+					var disp=alltimes.filter(function(t){return t.pos.y>=483});
+					disp.forEach(function(x){x.remove();});
+				}
+				else if(t.pos.x>=bowl.pos.x && t.pos.x<=bowl.pos.x+75.75 && t.pos.y+35==bowl.pos.y+15)
+				{
+					t.remove();
+					clearInterval(t.time);
+					gametime=gametime+5;
+					get("gametime").innerHTML=gametime;
+				}
+				else
+				{
+					t.pos.y++;
+					t.style.top=t.pos.y+"px";
+				}
+			}
+			function makelightning()
+			{
+				if(gameover) return;
+				l=document.createElement("div");
+				l.className="lightning";
+				l.pos={x:getRnd(10,805),y:7};
+				l.style.left=l.pos.x+"px";
+				l.style.top=l.pos.y+"px";
+				l.time=setInterval(lightningdrop,20,l);
+				get("bg").appendChild(l);
+			}
+			function lightningdrop(l)
+			{
+				if(gameover) return;
+				if(l.pos.y>=483)
+				{
+					var ALLlightnigns=gets("lightning");
+					var disp=ALLlightnigns.filter(function(l){return l.pos.y>=483});
+					disp.forEach(function(x){x.remove();});
+				}
+				else if(l.pos.x>=bowl.pos.x && l.pos.x<=bowl.pos.x+75.75 && l.pos.y+35==bowl.pos.y+15)
+				{
+					l.remove();
+					clearInterval(l.time);
+					clearInterval(mc);
+					mc2=setInterval(makecoin,300);
+					setTimeout(oldspeed,3000);
+				}
+				else
+				{
+					l.pos.y++;
+					l.style.top=l.pos.y+"px";
+				}
+			}
+			function oldspeed()
+			{
+				clearInterval(mc2);
+				mc=setInterval(makecoin,1500);
+			}
+			function allover()
+			{
+				gameover=1;
+				clearInterval(mo);
+				clearInterval(mc);
+				clearInterval(md);
+				clearInterval(mt);
+				clearInterval(ml);
+				clearInterval(cd);
+				//putgameover();
+				//re.style.zIndex=7;
+			}
+			/*function res2()
+			{
+				allover();
+				var recoin=gets("coin");
+				var dispcoin=recoin.filter(function(c){return c.pos.y<=500});
+				dispcoin.forEach(function(x){x.remove();});
+				var retime=gets("plustime");
+				var disptime=retime.filter(function(t){return t.pos.y<=500});
+				disptime.forEach(function(x){x.remove();});
+				var reln=gets("lightning");
+				var displn=reln.filter(function(l){return l.pos.y<=500});
+				displn.forEach(function(x){x.remove();});
+				var rediam=gets("diamond");
+				var dispdiam=rediam.filter(function(d){return d.pos.y<=500});
+				dispdiam.forEach(function(x){x.remove();});
+				gameset();
+			}*/
+			/*function putgameover()
+			{
+				gopic=document.createElement("div");
+				gopic.className="go_pic";
+				gopic.pos={x:330,y:90};
+				gopic.style.top=gopic.pos.y+"px";
+				gopic.style.left=gopic.pos.x+"px";
+				get("bg").appendChild(gopic);
+				//gopic=get("go_pic");
+				//gopic.style.zIndex=6;
+				//putrestart();
+				//setTimeout(putrestart,315);
+
+			}*/
+			/*function putrestart()
+			{
+				re=document.createElement("div");
+				re.id="restart";
+				re.innerHTML="重新開始";
+				get("bg").appendChild(re);
+				re.addEventListener("click",res);
+				
+			}*/
+			/*function res(ev)
+			{
+				ev.target.remove();
+				gopic.remove();
+				gameset();
+			}*/
+			
+  	</script>
+  </head>
+  <body onload="gameset();" onkeydown="kd(event);" onkeyup="ku(event);">
+    <div id="bg">
+			<div id="block"></div>
+      <div id="bowl"></div>
+			<div id="rule">
+				遊戲規則:<br>
+				1. 點擊左右鍵控制大碗移動<br>
+				2. 接到金幣 : 得1$<br>
+				3. 接到鑽石 : 得5$<br>
+				4. 接到時鐘 : 加5秒<br>
+				5. 接到閃電 : 金幣出現速度增加(持續3秒)<br>
+				6. 時間結束時遊戲結束<br>
+				7. 若要重新開始遊戲，請刷新頁面<br>
+				8. 開心玩^^
+			</div>
+			<div id="p">資產 : <span id="score">0</span> $</div>
+			<div id="p2">剩餘 <span id="gametime">60</span> 秒</div>
+			<!--<button onclick="res2()" id="p3">重新開始</button><br>-->
+    </div>
+  </body>
+</html>
