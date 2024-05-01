@@ -287,6 +287,7 @@
 					var allcoins=gets("coin");
 					var disp=allcoins.filter(function(c){return c.pos.y>=483});
 					disp.forEach(function(x){x.remove();});
+					//find只出第一個；
 					//gets和filter出來都是一個array，所以要用forEach一個一個抓出來remove;
 				}
 				else if(c.pos.x>=bowl.pos.x && c.pos.x<=bowl.pos.x+75.75 && c.pos.y+35==bowl.pos.y+15)
